@@ -9,7 +9,44 @@ $page = dvwaPageNewGrab();
 $page[ 'title' ] = 'Source' . $page[ 'title_separator' ].$page[ 'title' ];
 
 if (array_key_exists ("id", $_GET)) {
+	/*
+The vulnerability in the selected line of code is related to file inclusion attacks. 
+An attacker can manipulate the id parameter in the URL to include arbitrary files from the server.
+ For example, an attacker can use a URL like view_source_all.php?id=../../../../etc/passwd to include 
+ the /etc/passwd file and view its contents.
+
+To fix this vulnerability, the code should validate and sanitize the input before using it in the 
+file_get_contents() function. One way to do this is to use a whitelist of allowed file names or 
+paths and check if the input matches the whitelist. Another way is to use a regular expression to 
+validate the input and remove any characters that are not allowed.
+	*/
 	$id = $_GET[ 'id' ];
+
+/*
+<?php
+$id = $_GET[ 'id' ];
+if (preg_match('/^[a-zA-Z0-9_]+$/', $id)) {
+    $file = "path/to/files/" . $id . ".txt";
+    if (file_exists($file)) {
+        $content = file_get_contents($file);
+        echo $content;
+    } else {
+        echo "File not found.";
+    }
+} else {
+    echo "Invalid input.";
+}
+?>
+*/
+
+/* 
+In this example, the regular expression /^[a-zA-Z0-9_]+$/ is used to validate the input and allow
+ only alphanumeric characters and underscores. The input is then concatenated with a fixed path 
+ and a .txt extension to form the file name. The file_exists() function is used to check if the file 
+ exists before reading its contents with file_get_contents(). If the file does not exist, an error message 
+ is displayed. If the input is invalid, another error message is displayed.
+*/
+
 
 	$lowsrc = @file_get_contents("./{$id}/source/low.php");
 	$lowsrc = str_replace( array( '$html .=' ), array( 'echo' ), $lowsrc);
