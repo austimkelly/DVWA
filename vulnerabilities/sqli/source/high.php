@@ -1,3 +1,19 @@
+<!-- Based on the code snippet you provided, there are several potential security vulnerabilities:
+
+SQL Injection: The code uses user input ($_SESSION['id']) directly in an SQL query without proper input validation or sanitization. This can allow an attacker to inject malicious SQL code and perform unauthorized actions on the database.
+
+Error Handling: The code uses generic error messages that can reveal sensitive information to an attacker. For example, the error message "Something went wrong" can reveal the database schema or other implementation details to an attacker.
+
+Information Disclosure: The code displays sensitive information (such as user IDs, first names, and surnames) to the end user without proper access controls or authentication mechanisms. This can allow an attacker to view or modify sensitive information.
+
+To fix these vulnerabilities, the code should:
+
+Use prepared statements or parameterized queries to prevent SQL injection attacks.
+
+Use specific error messages that do not reveal sensitive information to the attacker.
+
+Implement proper access controls and authentication mechanisms to protect sensitive information from unauthorized access. -->
+
 <?php
 
 if( isset( $_SESSION [ 'id' ] ) ) {
